@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+      function setData(values){
+      var div = document.getElementById("output");
+       document.createElement("h1").innerHTML = "THOSE WHO AVE'T PAID" 
+      for(var ro = 0 ; ro < values.length; ro++ ){
+//         if(!isNAN(values[i][0])){
+           var text = "its been " + Math.abs(values[ro][0]) + " days " + values[ro][2]
+           var p = document.createElement("P");
+           p.innerHTML = text ;
+           div.appendChild(p)
+      }
+
+      }
+      
+      google.script.run.withSuccessHandler(setData).withFailureHandler((err)=>{  
+      var div = document.getElementById("output");
+      div.innerHTML = e
+}).getpenders() 
+    </script>
+  </head>
+  <body>
+    <div id="output"></div>
+  </body>
+</html>
+
