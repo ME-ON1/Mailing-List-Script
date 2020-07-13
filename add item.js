@@ -2,79 +2,80 @@ function onOpen() {
   SpreadsheetApp.getUi().createMenu("find em").addItem("who havent paid", 'findem').addItem("pending bills", "doGet").addToUi()
 }
 
+/*selectin last olumn ,paid or not ,finding if the bills are pad or not*/
+//
+//
+//function findem(){
+//  var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
+//  var range = s.getRange(2, s.getLastColumn() , s.getLastRow() - 1, 1)
+//  var values = range.getValues()
+//  
+//  for(var i = 0 ; i < values.length ; i++ ) {
+//    if(values[i][0]){
+//         values[i][0] = !values[i][0];  
+//         var p = s.getRange(i+1, 5);
+//         var t = p.getValue()
+//
+//         t.setMonth(new Date(t).getMonth() + 1);
+//         s.getRange(i+1, 1, 1, s.getLastColumn()).setBackground("Green")
+//         p.setValue(t)
+//    }
+//  }
+//  
+//      range.setValue(values)
+//      daysLeft();
+//}
 
-function findem(){
-  var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
-  var range = s.getRange(2, s.getLastColumn() , s.getLastRow() - 1, 1)
-  var values = range.getValues()
-  
-  Logger.log(values)
-  
-  for(var i = 0 ; i < values.length ; i++ ) {
-    if(values[i][0]){
-         values[i][0] = !values[i][0];  
-         var p = s.getRange(i+1, 5);
-         var t = p.getValue()
-
-         t.setMonth(new Date(t).getMonth() + 1);
-         s.getRange(i+1, 1, 1, s.getLastColumn()).setBackground("Green")
-         p.setValue(t)
-    }
-  }
-  
-      range.setValue(values)
-      daysLeft();
-}
-
-// checking util func if paid or not 
+// checking util func if paid or not column has False in it 
 
 function CheckUtil(rowIndex,columnIndex,nro,nco){
   var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
   var range = s.getRange(rowIndex,columnIndex , nro, nco) ;
   var values = range.getValue();
   
-  if(values === "false")
-  {
-    return 0;
-  }
-  else {
-    return 1;
-  }
-  
+  return (values === "false" ?  0 : 1 ) ;  
 }
 
 
 // checking 
-
+// days let column  
 function daysLeft(){
   var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
-  var dayLeftRange = s.getRange(2,7,s.getLastRow()- 1 ,2) // selecting days left columnn 
-  
-  var calRange = s.getRange(2,5,s.getLastRow(),2); //selecting current date and month over date 
-  var calValues = calRange.getValues()
-  
-
-  var dayLeftValues = dayLeftRange.getValues();
-  
+  var range = s.getRange(2,1,s.getLastRow()- 1,s.getLastColumn())
+  var values = range.getValues() // select every column 
  
-
-  for(var i =  0 ; i < calValues.length ; i++) {
-    if(CheckUtil(i+2,s.getLastColumn()-1,1,1) == 0){
-      dayLeftValues[i][0]  = diff(new Date(calValues[i][0]),new Date(calValues[i][1])) > 15 ? "ITS TIME" :  diff(new Date(calValues[i][0]),new Date(calValues[i][1]));      
-       if(dayLeftValues[i][0] <= 3 && isNaN(dayLeftValues[i][0]) != true ){
-          var r = Math.abs(255 - Math.abs(dayLeftValues[i][0] * 4))%255; 
-          Logger.log(r)
-          s.getRange(i+2,1,1,s.getLastColumn()).setBackgroundRGB(r , 0, 0)
-       }
-       else  if(dayLeftValues[i][0] < 15 && dayLeftValues[i][0] > 3) {
-        s.getRange(i+2 ,  s.getLastColumn() ,1, 1 ).setValue("you have paid?")
-        s.getRange(i+2,1,1,s.getLastColumn()).setBackgroundRGB(0,255,0).setTextDirection(SpreadsheetApp.TextDirection.RIGHT_TO_LEFT)
-       }
-       Logger.log(dayLeftValues[i])
-       }
-  dayLeftRange.setValues(dayLeftValues);
-   }
+  
+  //sort the date according to the dates dates with highest
+  values.sort(function(a,b){
+    var x = new Date(a[4]);
+    var y =  new Date() ;
+    return (x - y.toLocaleDateString() && !a[7]);
+  })
+  
+  // set the date differnce 
+//  setDateDiff(values);  
+  
+  Logger.log(values)
+  
+//  range.setValues(values)
+ 
 }
+
+
+function setDateDiff(values){
+  for(var row = 0 ; row < values.length ; row++){
+    values[row][6] = Math.round(diff(values[row][4]))
+  }
+}
+
+// diff between two days 
+
+function diff(endDate){
+  var currDate = new Date()
+  return ((endDate.getTime()- currDate.getTime())/(1000*24*60*60));
+}
+
+
 
 //rendering hrml
 
