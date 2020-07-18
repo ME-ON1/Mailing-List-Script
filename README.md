@@ -12,5 +12,6 @@ React runnning via CDN (for Form handling nothing fancy)
 
 1. Optimise it completly (currently the loops are  running for 8sec for 10 datas, which is `PRETTY HIGH!!` ) GOAL is to bring it down Handsomly.
 2. organize the file directory.
-3. Also integrate it with twilio to send SMS to the required field and the email too.
-4. Make it more controllable by the client.
+3. Also integrate it with twilio to send SMS to the required field.
+4. Added email functionality.. [DONE]
+5. Make it more controllable by the client.
