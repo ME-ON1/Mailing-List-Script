@@ -1,3 +1,6 @@
+/*First version didnt succeded */
+
+
 function myFunction() {
  var s = SpreadsheetApp.getActiveSpreadsheet() ;
   s.rename("Mailing list")

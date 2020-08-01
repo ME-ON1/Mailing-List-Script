@@ -128,11 +128,21 @@
          obj : e.target
       })
       }
+      
+      /*submit the data and close after that */
+      
+      const submitHandler = async (e)=>{
+         e.preventDefault(); //stop form from submitting
+         await google.script.run.addNewItem(e.target);
+         await google.script.host.close()
+     
+         
+      }
      
       return (
       
       <div >
-      <form>
+      <form id="form" onSubmit={submitHandler}>
       <label htmlFor="name"> Name </label>
       <input name ="name" id="name" type="text" onBlur={send}/>
       <label htmlFor="p_number" > Phone Number </label> 

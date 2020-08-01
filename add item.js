@@ -38,43 +38,28 @@ function CheckUtil(rowIndex,columnIndex,nro,nco){
 
 
 // checking 
-// days let column  
+// days let column 
+ 
+
 function daysLeft(){
   var s = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet()
-  var range = s.getRange(2,1,s.getLastRow()- 1,s.getLastColumn())
+  var range = s.getRange(2,7, s.getLastRow()- 1,3 )
   var values = range.getValues() // select every column 
- 
   
-  //sort the date according to the dates dates with highest
-  values.sort(function(a,b){
-    var x = new Date(a[4]);
-    var y =  new Date() ;
-    return (x - y.toLocaleDateString() && !a[7]);
-  })
-  
-  // set the date differnce 
-//  setDateDiff(values);  
-  
-  Logger.log(values)
-  
-//  range.setValues(values)
- 
-}
-
-
-function setDateDiff(values){
-  for(var row = 0 ; row < values.length ; row++){
-    values[row][6] = Math.round(diff(values[row][4]))
+  for(let i in values ){
+    values[i][2] = Math.round(dateDiff(values[i][0])); 
   }
+  
+  range.setValues(values)
+ 
 }
 
 // diff between two days 
 
-function diff(endDate){
+function dateDiff(endDate){
   var currDate = new Date()
   return ((endDate.getTime()- currDate.getTime())/(1000*24*60*60));
 }
-
 
 
 //rendering hrml
