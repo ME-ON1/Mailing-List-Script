@@ -7,6 +7,9 @@ let data = range.getValues() ;
 let newData = new Array() ; // getting the two grp data in this array and then set it to the range 
 
 
+  let paidroot = null ;
+  let falseroot =  null ;
+
 /*Node for both the tree */
 var Node = function (value) {
     this.data = value ;
@@ -34,14 +37,13 @@ function traverse(root) {
   }
   
   traverse(root.left) ; 
-  newData.push(root.data)
+//  newData.push(root.data)
+  Logger.log(root.data)
   traverse(root.right);
 }
 
 function runthis(){
  
-  let paidroot = null ;
-  let falseroot =  null ;
   
   for(let i  = 0 ; i < data.length ; i++ ){
     
@@ -52,9 +54,28 @@ function runthis(){
     }
     
   }
-  
+  preOrderFalseRoot(falseroot)
   traverse(paidroot) ;
   traverse(falseroot) ;
   
-  range.setValues(newData)
+//  range.setValues(newData)
+}
+
+
+function preOrderFalseRoot(root){
+  if(root != null ){
+    if(root.data[11].trim() === "C"){
+      root.data[11] = "NN" ; 
+      root.data[9] = "PAID"
+      let d = new Date(root.data[5]); 
+    
+      root.data[5] = new Date(d.setMonth(d.getMonth() + 1 )).toLocaleDateString()
+      root.data[6] = new Date(d.setMonth(d.getMonth() + 1 )).toLocaleDateString()
+      root.data[8] = Math.round(dateDiff(new Date(root.data[6])));
+      insert(paidroot, root.data) 
+    }
+    
+    preOrderFalseRoot(root.left);
+    preOrderFalseRoot(root.right)
+  }
 }
